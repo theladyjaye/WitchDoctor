@@ -14,12 +14,15 @@ foreach($headers as $key => $value)
 		$request_headers[substr($key, strlen($header_key))] = $value;
 	}
 }
+
+$request_body = file_get_contents("php://input");
+//echo json_encode($request_body);exit;
 //echo json_encode($request_headers);exit;
 $proxy = new PHPProxy($endpoint[0], $port);
 $proxy->setHeaders($request_headers);
 $proxy->proxy($uri);
 
-$request_body = file_get_contents("php://input");
+
 $out = array('request'=> array('info'=>$proxy->request_info, 'body'=>$request_body), 'response'=>array('headers'=>$proxy->response->headers, 'body'=>$proxy->response->body)); 
 echo json_encode($out);
 ?>

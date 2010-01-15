@@ -99,3 +99,22 @@ function database_categories_refresh()
 		});
 	});
 }
+
+function database_save_request(label, category_id, data)
+{
+	database.transaction(function (transaction) 
+	{
+		transaction.executeSql('INSERT INTO REQUEST (name, category, data) VALUES (?,?,?);', [label, category_id, data]);
+	});
+}
+
+function database_load_request(id, callback)
+{
+	database.transaction(function (transaction) 
+	{
+		transaction.executeSql('SELECT name, data FROM REQUEST WHERE id = ? LIMIT 1;', [id], function(transaction, results){
+			var row = results.rows.item(0);
+			callback(row);
+		});
+	});
+}

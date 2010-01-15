@@ -8,10 +8,10 @@ var database                  = {};
 $(function()
 {
 	database = database_initialize();
-	database_reset();
+	//database_reset();
 	database_setup();
 	database_categories_refresh();
-	
+	local_request_load(4);
 	$('#btn_add_headers').bind('click', headers_add);
 	$('#btn_send').bind('click', action_submit);
 	$("#inputVerb").bind('change', method_change)
@@ -20,6 +20,10 @@ $(function()
 	$("input[name='inputAuthorization']").bind('change', authorization_change);
 	$('#btn_new_category').bind('click', local_new_category)
 	$('#btn_save_request').bind('click', local_save_request)
+	$('#btn_save').bind('click', local_show_save)
+	$('#btn_load').bind('click', local_show_load)
+	$('#btn_load_close').bind('click', local_hide_load);
+	$('#btn_save_close').bind('click', local_hide_save);
 	
 });
 
@@ -105,7 +109,7 @@ function action_connect(request)
 		url = "http://witchdoctor/application/system/witchdoctor.php?endpoint="+encodeURIComponent(request.endpoint)+"&port="+request.port;
 	}
 	
-	
+
 	var transfer = {
 		type:request.method,
 		url:url,
@@ -133,7 +137,7 @@ function action_prepeare_headers(xhrObj, request)
 
 function action_complete(data, textStatus)
 {
-	//console.log(data);
+	console.log(data);
 	var template = {};
 	template.body = data.response.body;
 	template.response_headers = data.response.headers.join('\n');
@@ -147,11 +151,21 @@ function action_complete(data, textStatus)
 
 function action_error(XMLHttpRequest, textStatus, errorThrown)
 {
-	console.log(textStatus);
-	console.log(errorThrown);
-	console.log(XMLHttpRequest.responseText)
-	var html = Mustache.to_html(WDTemplates.response_error, {});
+	var data      = JSON.parse(XMLHttpRequest.responseText);
+	//console.log(data);
+	var template  = {};
+	template.body = data.response.body;
+	template.response_headers = data.response.headers.join('\n');
+	template.request_headers = data.request.info.request_header+"\r\n"+data.request.body;
+	
+	var html = Mustache.to_html(WDTemplates.response, template);
 	$('.response .context').html(html);
+	$('#btn_response').bind('click', action_show_response);
+	$('#btn_request').bind('click', action_show_request);
+	
+	/*var html = Mustache.to_html(WDTemplates.response_error, {});
+	$('.response .context').html(html);
+	*/
 }
 
 function action_show_response()

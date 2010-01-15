@@ -130,7 +130,7 @@ function parameters_collect_post(request)
 	var checked    = $('#inputParametersRaw:checked').val();
 	if(typeof checked != 'undefined')
 	{
-		request.data = $('#inputParameterRaw').val();
+		request.data = encodeURIComponent($('#inputParameterRaw').val());
 	}
 	else
 	{
@@ -154,5 +154,5 @@ function parameters_collect_post(request)
 
 function parameters_collect_put(request)
 {
-	request.data = $('#inputParameterRaw').val();
+	request.data = encodeURIComponent($('#inputParameterRaw').val());
 }
