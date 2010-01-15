@@ -159,6 +159,11 @@ function local_request_load_process_parameters(data)
 			}
 		}
 	}
+	else
+	{
+		parameters_show_default();
+	}
+	
 }
 
 function local_request_load_process_headers(data)
