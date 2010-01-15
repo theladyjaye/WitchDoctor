@@ -11,7 +11,7 @@ $(function()
 	//database_reset();
 	database_setup();
 	database_categories_refresh();
-	local_request_load(4);
+	
 	$('#btn_add_headers').bind('click', headers_add);
 	$('#btn_send').bind('click', action_submit);
 	$("#inputVerb").bind('change', method_change)

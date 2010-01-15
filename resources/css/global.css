@@ -36,3 +36,9 @@ pre{font-size:11px;}
 	float:right;
 	width:10px;
 }
+.request-saved{
+	background-color:#f9f9f9;
+	margin-bottom:3px;
+}
+
+.request-saved table tr td{padding-top:7px;}

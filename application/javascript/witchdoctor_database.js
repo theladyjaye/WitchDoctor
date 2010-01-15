@@ -101,11 +101,54 @@ function database_categories_refresh()
 	});
 }
 
+
+
+function database_requests_for_category(category)
+{
+	database.transaction(function (transaction) 
+	{
+		transaction.executeSql('SELECT id, name FROM REQUEST WHERE category = ? ORDER BY name ASC;', [category], function(transaction, results)
+		{
+			$('.storage-load .context').html('');
+			for(var i = 0; i < results.rows.length; i++)
+			{
+				var row  = results.rows.item(i);
+				var html =  Mustache.to_html(WDTemplates.request_saved, {name:row['name'], id:row['id']});
+				$('.storage-load .context').append(html);
+				
+				$('#btn_load_request_'+row['id']).bind('click', function(){
+					var id = $(this).attr('id').split('_').pop();
+					local_hide_load();
+					local_request_load(id);
+
+					return false;
+				})
+				
+				$('#btn_delete_request_'+row['id']).bind('click', function(){
+					var id = $(this).attr('id').split('_').pop();
+					database_delete_request(id);
+					return false;
+				})
+			}
+		});
+	});
+}
+
 function database_save_request(label, category_id, data)
 {
 	database.transaction(function (transaction) 
 	{
 		transaction.executeSql('INSERT INTO REQUEST (name, category, data) VALUES (?,?,?);', [label, category_id, data]);
+	});
+}
+
+function database_delete_request(id)
+{
+	database.transaction(function (transaction) 
+	{
+		transaction.executeSql('DELETE FROM request WHERE id= ?;', [id], function(transaction, result){
+			database_requests_for_category($('#inputCategoryLoad').val());
+		});
 	});
 }
 

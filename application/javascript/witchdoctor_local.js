@@ -7,14 +7,20 @@ function local_show_save(sender)
 
 function local_show_load(sender)
 {
+	var category = $('#inputCategoryLoad').val();
+	
 	local_hide_save();
+	database_requests_for_category(category);
+	
 	$('.storage .storage-load').show();
+	$('#inputCategoryLoad').bind('change', local_load_change)
 	return false;
 }
 
 function local_hide_load()
 {
 	$('.storage .storage-load').hide();
+	$('#inputCategoryLoad').unbind('change', local_load_change)
 	return false;
 }
 
@@ -22,6 +28,12 @@ function local_hide_save()
 {
 	$('.storage .storage-save').hide();
 	return false;
+}
+
+function local_load_change(sender)
+{
+	var category = $('#inputCategoryLoad').val();
+	database_requests_for_category(category);
 }
 
 function local_new_category(sender)
@@ -54,7 +66,7 @@ function local_save_request(sender)
 	}
 	else
 	{
-		local_request_new($('#inputCategory').val())
+		local_request_new($('#inputCategorySave').val())
 	}
 	
 	return false;
@@ -150,6 +162,7 @@ function local_request_load_process_parameters(data)
 
 function local_request_load_process_headers(data)
 {
+	headers_clear();
 	if(data.headers.length > 0)
 	{
 		data.headers.forEach(function(item){
@@ -167,7 +180,6 @@ function local_serialize_request()
 	local_serialize_authorization(data);
 	local_serialize_parameters(data);
 	local_serialize_headers(data)
-	
 	return JSON.stringify(data);
 }
 
