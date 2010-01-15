@@ -1,15 +1,23 @@
 var parameter_id              = 0;
 var parameter_context         = {kContextPost:'parameters_post', kContextPut:'parameters_put'}
 var current_parameter_context = null;
+var database                  = {};
 
 $(function()
 {
+	database = database_initialize();
+	database_setup();
+	database_categories_refresh();
+	//database_reset();
 	$('#btn_add_headers').bind('click', headers_add);
 	$('#btn_send').bind('click', action_submit);
 	$("#inputVerb").bind('change', method_change)
 	$('#btn_add_parameters').bind('click', parameters_post_add);
 	$('#inputParametersRaw').bind('click', parameters_post_raw);
 	$("input[name='inputAuthorization']").bind('change', authorization_change);
+	$('#btn_new_category').bind('click', local_new_category)
+	$('#btn_save_category').bind('click', local_save_category)
+	
 });
 
 function method_change()

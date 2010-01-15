@@ -12,6 +12,8 @@
 	<script src="application/javascript/witchdoctor_authorization.js" type="text/javascript" charset="utf-8"></script>
 	<script src="application/javascript/witchdoctor_headers.js" type="text/javascript" charset="utf-8"></script>
 	<script src="application/javascript/witchdoctor_parameters.js" type="text/javascript" charset="utf-8"></script>
+	<script src="application/javascript/witchdoctor_local.js" type="text/javascript" charset="utf-8"></script>
+	<script src="application/javascript/witchdoctor_database.js" type="text/javascript" charset="utf-8"></script>
 	<script src="application/javascript/templates.js" type="text/javascript" charset="utf-8"></script>
 	<script src="application/javascript/models.js" type="text/javascript" charset="utf-8"></script>
 	<link rel="stylesheet" href="/resources/css/global.css" type="text/css" media="screen" charset="utf-8">
@@ -19,6 +21,24 @@
 <body>
 	<div>
 		<h1>WitchDoctor v0.5b</h1>
+	</div>
+	<div class="section">
+		<div class="save">
+			<h3>Save</h3>
+			<div>Category <a href="new_category" id="btn_new_category">+</a></div>
+			<div class="context-select">
+				<select id="inputCategory">
+					<option value="1">Default</option>
+				</select>
+			</div>
+			<div class="context-new" style="display:none;">
+				<input type="text" name="inputNewCategory" value="New Category" id="inputNewCategory"><button id="btn_save_category">Save</button>
+			</div>
+			<div>
+				<div><input type="text" name="inputRequestName" value="New Request" id="inputRequestName"></div>
+				<div><button id="btn_save_request">Save</button></div>
+			</div>
+		</div>
 	</div>
 	<div class="section">
 		<table>
