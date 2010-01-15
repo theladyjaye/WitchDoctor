@@ -1,0 +1,19 @@
+body{
+	font-size:14px;
+	font-family:sans-serif;
+}
+
+input {font-size:18px;}
+table{padding-bottom:10px;}
+table tr th{text-align:left;font-size:20px;}
+h3 {font-size:20px;margin:0;padding-bottom:5px}
+.section{padding-bottom:10px; clear:both;}
+
+#authorization{margin-bottom:15px;}
+.parameters_post, .parameters_put{display:none;}
+.parameter{clear:both;padding-top:5px;}
+.parameter input, .parameter button{
+	float:left;
+}
+pre{font-size:11px;}
+.request-details{display:none;}
