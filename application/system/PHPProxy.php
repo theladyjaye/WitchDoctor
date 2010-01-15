@@ -81,6 +81,7 @@ class PHPProxy
 	public $request_headers;
 	
 	private $uri;
+	private $headers;
 	
 	/**
 	 * Initialize the proxy service
@@ -141,6 +142,11 @@ class PHPProxy
 			curl_close($command);
 			
 		}
+	}
+	
+	public function setHeaders($array)
+	{
+		$this->headers = $array;
 	}
 	
 	/**
@@ -226,15 +232,11 @@ class PHPProxy
 		
 		$params    = null;
 		
-		$headers   = apache_request_headers();
 		$context   = array();
 		
 		$context[] = 'Host: '.$this->host.':'.$this->port;
-		$context[] = 'X-Forwarded-For: '.$_SERVER['REMOTE_ADDR'];
-		$context[] = 'X-Forwarded-Host: '.$_SERVER['HTTP_HOST'];
-		$context[] = 'X-Forwarded-Server: '.$_SERVER['SERVER_NAME'];
 
-		foreach($headers as $key=>$value)
+		foreach($this->headers as $key=>$value)
 		{
 			if(strtolower($key) != 'host')
 			{

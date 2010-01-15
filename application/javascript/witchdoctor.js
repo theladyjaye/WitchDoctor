@@ -115,7 +115,7 @@ function action_prepeare_headers(xhrObj, request)
 	{
 		request.headers.forEach(function(item)
 		{
-			xhrObj.setRequestHeader(item.name, item.value);
+			xhrObj.setRequestHeader("X-WitchDoctor-"+item.name, item.value);
 		})
 	}
 }
