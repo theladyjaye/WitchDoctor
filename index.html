@@ -29,12 +29,12 @@
 			</div>
 			<!-- save -->
 			<div class="storage-save">
-				<h3>Save</h3>
 				<a href="close-save" id="btn_save_close">x</a>
+				<h3>Save Request</h3>
 				<div>Category <a href="new_category" id="btn_new_category">+</a></div>
 				<div class="context-select">
-					<select id="inputCategory">
-						<option value="1">Default</option>
+					<select id="inputCategorySave">
+						<option value="1" checked>Default</option>
 					</select>
 				</div>
 				<div class="context-new" style="display:none;">
@@ -48,20 +48,13 @@
 			<!-- /save -->
 			<!-- load -->
 			<div class="storage-load">
-				<h3>Load</h3>
 				<a href="close-load" id="btn_load_close">x</a>
-				<div>Category <a href="new_category" id="btn_new_category">+</a></div>
+				<h3>Load Request</h3>
+				<div>Category</div>
 				<div class="context-select">
-					<select id="inputCategory">
-						<option value="1">Default</option>
+					<select id="inputCategoryLoad">
+						<option value="1" checked>Default</option>
 					</select>
-				</div>
-				<div class="context-new" style="display:none;">
-					<input type="text" name="inputNewCategory" value="New Category" id="inputNewCategory">
-				</div>
-				<div>
-					<div><input type="text" name="inputRequestName" value="New Request" id="inputRequestName"></div>
-					<div><button id="btn_save_request">Save</button></div>
 				</div>
 			</div>
 			<!-- /load -->

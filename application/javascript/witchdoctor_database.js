@@ -95,7 +95,8 @@ function database_categories_refresh()
 				options += Mustache.to_html(WDTemplates.option, {label:row['name'], value:row['id']});
 			}
 			
-			$('#inputCategory').html(options);
+			$('#inputCategorySave').html(options);
+			$('#inputCategoryLoad').html(options);
 		});
 	});
 }

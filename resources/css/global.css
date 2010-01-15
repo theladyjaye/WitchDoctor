@@ -22,4 +22,17 @@ table tr th{text-align:left;font-size:20px;}
 pre{font-size:11px;}
 .request-details{display:none;}
 .notice{font-style:italic; font-size:11px;}
-.storage-save, .storage-load{display:none;}
+.storage-save, .storage-load{
+	display:none; 
+	position:absolute; 
+	background:#f6f6f6; 
+	width:500px; 
+	min-height:200px;
+	border:1px solid #cccccc;
+	padding:10px;
+}
+
+#btn_save_close, #btn_load_close{
+	float:right;
+	width:10px;
+}
