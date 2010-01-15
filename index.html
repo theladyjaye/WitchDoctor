@@ -57,16 +57,19 @@
 	<div class="section">
 		<div class="parameters_post">
 			<h3>Parameters</h3>
-			<div><button id="btn_add_parameters">+ add parameters</button></div>
+			<div>
+				<button id="btn_add_parameters">+ add parameters</button> <label for="inputParametersRaw">Raw Input?</label><input type="checkbox" name="inputParametersRaw" value="1" id="inputParametersRaw">
+				<div class="notice" style="display:none;">Be sure to specify a 'Content-Type' header, the default is application/x-www-form-urlencoded if no Content-Type is specified</div>
+			</div>
 			<div class="context">
 			</div>
 		</div>
 	</div>
 	<div class="section">
 		<div class="parameters_put">
-			<h3>PUT Data</h3>
+			<h3>Put Request Body</h3>
+			<div class="notice">Be sure to specify a 'Content-Type' header, the default is application/x-www-form-urlencoded if no Content-Type is specified</div>
 			<div class="context">
-			
 			</div>
 		</div>
 	</div>

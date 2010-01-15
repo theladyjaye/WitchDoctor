@@ -8,7 +8,7 @@ $(function()
 	$('#btn_send').bind('click', action_submit);
 	$("#inputVerb").bind('change', method_change)
 	$('#btn_add_parameters').bind('click', parameters_post_add);
-	
+	$('#inputParametersRaw').bind('click', parameters_post_raw);
 	$("input[name='inputAuthorization']").bind('change', authorization_change);
 });
 
