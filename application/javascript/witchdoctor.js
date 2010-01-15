@@ -82,17 +82,18 @@ function action_connect(request)
 	var params = null;
 	var url    = null;
 	
-	if(request.endpoint.indexOf('?') !== false)
+	if(request.endpoint.indexOf('?') > 0)
 	{
 		request.query_string = request.endpoint.substr(request.endpoint.indexOf('?')+1);
 		request.endpoint     = request.endpoint.substr(0, request.endpoint.indexOf('?'));
 		
-		url = "http://witchdoctor/proxy?endpoint="+encodeURIComponent(request.endpoint)+"&port="+request.port+"&params="+encodeURIComponent(request.query_string);
+		url = "http://witchdoctor/application/system/witchdoctor.php?endpoint="+encodeURIComponent(request.endpoint)+"&port="+request.port+"&params="+encodeURIComponent(request.query_string);
 	}
 	else
 	{
-		url = "http://witchdoctor/proxy?endpoint="+encodeURIComponent(request.endpoint)+"&port="+request.port;
+		url = "http://witchdoctor/application/system/witchdoctor.php?endpoint="+encodeURIComponent(request.endpoint)+"&port="+request.port;
 	}
+	
 	
 	var transfer = {
 		type:request.method,
@@ -103,6 +104,7 @@ function action_connect(request)
 		error:action_error,
 		beforeSend:function(xhrObj) { action_prepeare_headers(xhrObj, request) }
 	}
+	
 	$.ajax(transfer)
 	
 }
@@ -120,7 +122,7 @@ function action_prepeare_headers(xhrObj, request)
 
 function action_complete(data, textStatus)
 {
-	console.log(data);
+	//console.log(data);
 	var template = {};
 	template.body = data.response.body;
 	template.response_headers = data.response.headers.join('\n');
@@ -130,11 +132,13 @@ function action_complete(data, textStatus)
 	$('.response .context').html(html);
 	$('#btn_response').bind('click', action_show_response);
 	$('#btn_request').bind('click', action_show_request);
-	
 }
 
 function action_error(XMLHttpRequest, textStatus, errorThrown)
 {
+	console.log(textStatus);
+	console.log(errorThrown);
+	console.log(XMLHttpRequest.responseText)
 	var html = Mustache.to_html(WDTemplates.response_error, {});
 	$('.response .context').html(html);
 }
