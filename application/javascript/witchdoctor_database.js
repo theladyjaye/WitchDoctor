@@ -38,7 +38,6 @@ function database_setup()
 	{
 		transaction.executeSql("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;", [], function(transaction, results)
 		{
-			console.log(results.rows.length);
 			if(results.rows.length <= 2)
 			{
 				database_create();
@@ -67,12 +66,18 @@ function database_reset()
 	});
 }
 
-function database_category_new(category)
+function database_category_new(category, callback)
 {
-	var category = category;
+	var category     = category;
+	var category_id  = 0;
+	
 	database.transaction(function (transaction) 
 	{
 		transaction.executeSql('INSERT INTO CATEGORY (name) VALUES (?);', [category]);
+		transaction.executeSql('SELECT last_insert_rowid() id;', [], function(transaction, results){
+			var row = results.rows.item(0);
+			callback(row['id']);
+		});
 	});
 }
 
