@@ -87,7 +87,6 @@ function local_request_new(category_id)
 	var label = $('#inputRequestName').val();
 	database_save_request(label, category_id, data);
 	local_hide_save();
-	
 }
 
 function local_request_load(id)
@@ -108,7 +107,6 @@ function local_request_load_process(data)
 	local_request_load_process_authorization(archive);
 	local_request_load_process_parameters(archive);
 	local_request_load_process_headers(archive);
-	
 }
 
 function local_request_load_process_authorization(data)
@@ -165,7 +163,6 @@ function local_request_load_process_parameters(data)
 	{
 		parameters_show_default();
 	}
-	
 }
 
 function local_request_load_process_headers(data)

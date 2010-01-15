@@ -109,7 +109,6 @@ function action_connect(request)
 		url = "http://witchdoctor/application/system/witchdoctor.php?endpoint="+encodeURIComponent(request.endpoint)+"&port="+request.port;
 	}
 	
-
 	var transfer = {
 		type:request.method,
 		url:url,
@@ -121,7 +120,6 @@ function action_connect(request)
 	}
 	
 	$.ajax(transfer)
-	
 }
 
 function action_prepeare_headers(xhrObj, request)

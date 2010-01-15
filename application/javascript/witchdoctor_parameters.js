@@ -16,7 +16,6 @@ function parameters_post_raw(sender)
 		parameters_raw_delete()
 		notice.hide();
 	}
-
 }
 
 function parameters_raw_add(context, value)
@@ -63,7 +62,6 @@ function parameters_show_post()
 	{
 		parameters_post_raw();
 	}
-	
 }
 
 function parameters_show_put()
@@ -144,10 +142,11 @@ function parameters_collect_post(request)
 		})
 	
 	
-		parameters.forEach(function(param){
+		parameters.forEach(function(param)
+		{
 			data += encodeURIComponent(param.name)+"="+encodeURIComponent(param.value)+"&";
 		})
-	
+		
 		request.data = data.substr(0, (data.length-1))
 	}
 }
