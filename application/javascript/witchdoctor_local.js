@@ -116,6 +116,7 @@ function local_request_load_process_authorization(data)
 	{
 		case 'none':
 			$('#inputNoAuthorization').attr('checked', 'checked');
+			authorization_show_default();
 			break;
 		
 		case 'basic':
