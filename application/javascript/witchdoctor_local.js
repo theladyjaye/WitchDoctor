@@ -27,6 +27,7 @@ function local_hide_load()
 function local_hide_save()
 {
 	$('.storage .storage-save').hide();
+	$('#inputRequestName').val('New Request');
 	return false;
 }
 
@@ -139,6 +140,7 @@ function local_request_load_process_parameters(data)
 		{
 			$('#inputParametersRaw').removeAttr('checked');
 			parameters_show_post();
+			parameters_post_raw();
 			data.parameters.forEach(function(item)
 			{
 				parameters_post_add(null, item.name, item.value);
