@@ -185,6 +185,7 @@ function local_serialize_request()
 	local_serialize_authorization(data);
 	local_serialize_parameters(data);
 	local_serialize_headers(data)
+	
 	return JSON.stringify(data);
 }
 
