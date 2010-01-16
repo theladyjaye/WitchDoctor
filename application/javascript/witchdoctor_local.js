@@ -179,7 +179,7 @@ function local_request_load_process_headers(data)
 function local_serialize_request()
 {
 	var data      = {};
-	data.endpoint = $('#inputUrl').val();
+	data.endpoint = endpoint_clean();
 	data.port     = $('#inputPort').val();
 	data.method   = $("#inputVerb").val();
 	local_serialize_authorization(data);

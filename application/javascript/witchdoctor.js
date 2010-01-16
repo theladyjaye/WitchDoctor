@@ -69,7 +69,7 @@ function action_submit()
 {
 	var request = new WDRequest();
 	
-	request.endpoint         = $("#inputUrl").val();
+	request.endpoint         = endpoint_clean();
 	request.method           = $("#inputVerb").val();
 	request.port             = $("#inputPort").val();
 	var authorizationContext = $("input[name='inputAuthorization']:checked").val(); 
@@ -92,6 +92,17 @@ function action_submit()
 	action_connect(request);
 }
 
+function endpoint_clean()
+{
+	var endpoint = $("#inputUrl").val().toLowerCase();
+	if(endpoint.indexOf('http://') == 0)
+	{
+		endpoint = endpoint.substr('http://'.length);
+	}
+	
+	return endpoint;
+}
+
 function action_connect(request)
 {
 	var params = null;
@@ -112,7 +123,7 @@ function action_connect(request)
 	var transfer = {
 		type:request.method,
 		url:url,
-		dataType:'json',
+		dataType:'html',
 		data:request.data,
 		success:action_complete,
 		error:action_error,
@@ -135,8 +146,25 @@ function action_prepeare_headers(xhrObj, request)
 
 function action_complete(data, textStatus)
 {
-	console.log(data);
+	data = action_process_response(data);
+	
 	var template = {};
+	template.body = data.response.body;
+	template.response_headers = data.response.headers.join('\n');
+	template.request_headers = data.request.info.request_header+"\r\n"+data.request.body;
+	
+	var html = Mustache.to_html(WDTemplates.response, template);
+	$('.response .context').html(html);
+	$('#btn_response').bind('click', action_show_response);
+	$('#btn_request').bind('click', action_show_request);
+	
+}
+
+function action_error(XMLHttpRequest, textStatus, errorThrown)
+{
+	data = action_process_response(XMLHttpRequest.responseText);
+	
+	var template  = {};
 	template.body = data.response.body;
 	template.response_headers = data.response.headers.join('\n');
 	template.request_headers = data.request.info.request_header+"\r\n"+data.request.body;
@@ -147,23 +175,18 @@ function action_complete(data, textStatus)
 	$('#btn_request').bind('click', action_show_request);
 }
 
-function action_error(XMLHttpRequest, textStatus, errorThrown)
+function action_process_response(data)
 {
-	var data      = JSON.parse(XMLHttpRequest.responseText);
 	//console.log(data);
-	var template  = {};
-	template.body = data.response.body;
-	template.response_headers = data.response.headers.join('\n');
-	template.request_headers = data.request.info.request_header+"\r\n"+data.request.body;
 	
-	var html = Mustache.to_html(WDTemplates.response, template);
-	$('.response .context').html(html);
-	$('#btn_response').bind('click', action_show_response);
-	$('#btn_request').bind('click', action_show_request);
+	var parts = data.split('--------------WitchDoctor');
+	var data = {request:{}, response:{}};
+	data.request.info     = JSON.parse(parts[0]);
+	data.request.body     = parts[1];
+	data.response.headers = JSON.parse(parts[2]);
+	data.response.body    = parts[3]
 	
-	/*var html = Mustache.to_html(WDTemplates.response_error, {});
-	$('.response .context').html(html);
-	*/
+	return data;
 }
 
 function action_show_response()
