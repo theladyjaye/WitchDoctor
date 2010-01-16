@@ -7,15 +7,16 @@ function headers_add(sender, key, value)
 		        parameter_name:key,
 		        parameter_value:value}
 		
+	
 	var html = Mustache.to_html(WDTemplates.parameter, data);
 	$('.headers .context').append(html);
 	$('#inputParameterDelete_'+data.id).bind('click', header_delete)
 }
 
-function header_delete(target)
+function header_delete(sender, target)
 {
 	parameter_id--;
-	var id  = target ? target : $(this).attr('id').split('_')[1];
+	var id  = (typeof target != 'undefined') ? target : $(this).attr('id').split('_')[1];
 	$('#parameter_'+id).remove();
 }
 
@@ -24,7 +25,7 @@ function headers_clear()
 	$('.headers .context .parameter').each(function()
 	{
 		var id = $(this).attr('id').split('_')[1];
-		header_delete(id);
+		header_delete(null, id);
 	});
 }
 
