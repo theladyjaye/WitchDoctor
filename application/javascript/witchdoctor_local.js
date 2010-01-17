@@ -103,6 +103,11 @@ function local_request_load_process(data)
 	$("#inputVerb option[selected]").removeAttr("selected");
 	$("#inputVerb option[value='"+archive.method+"']").attr("selected", "selected");
 	
+	$('#inputFollowRedirects').removeAttr('checked');
+	$('#inputResponseIsGziped').removeAttr('checked');
+	
+	archive.followRedirects  ? $('#inputFollowRedirects').attr('checked', 'checked') : null;
+	archive.responseIsGziped ? $('#inputResponseIsGziped').attr('checked', 'checked') : null;
 	
 	local_request_load_process_authorization(archive);
 	local_request_load_process_parameters(archive);
@@ -182,11 +187,18 @@ function local_serialize_request()
 	data.endpoint = endpoint_clean();
 	data.port     = $('#inputPort').val();
 	data.method   = $("#inputVerb").val();
+	local_serialize_endpoint_options(data);
 	local_serialize_authorization(data);
 	local_serialize_parameters(data);
 	local_serialize_headers(data)
 	
 	return JSON.stringify(data);
+}
+
+function local_serialize_endpoint_options(data)
+{
+	data.followRedirects  = (typeof $('#inputFollowRedirects:checked').val() != 'undefined') ? true : false;
+	data.responseIsGziped = (typeof $('#inputResponseIsGziped:checked').val() != 'undefined') ? true : false;
 }
 
 function local_serialize_authorization(data)
