@@ -2,8 +2,8 @@
 require 'PHPProxy.php';
 $endpoint        = explode('/', $_GET['endpoint']);
 $port            = $_GET['port'];
-$uri             = '/'.implode('/', array_slice($endpoint, 1));
-$uri             = isset($_GET['params']) ? $uri.'?'.$_GET['params'] : $uri;
+$url             = '/'.implode('/', array_slice($endpoint, 1));
+$url             = isset($_GET['params']) ? $url.'?'.$_GET['params'] : $url;
 $headers         = apache_request_headers();
 $header_key      = 'X-WitchDoctor-';
 $request_headers = array();
@@ -19,9 +19,11 @@ foreach($headers as $key => $value)
 $request_body = file_get_contents("php://input");
 //echo json_encode($request_body);exit;
 //echo json_encode($request_headers);exit;
-$proxy = new PHPProxy($endpoint[0], $port);
+$proxy = new PHPProxy();
+$proxy->setHost($endpoint[0]);
+$proxy->setPort($port);
 $proxy->setHeaders($request_headers);
-$proxy->proxy($uri);
+$proxy->proxy($url);
 
 echo json_encode($proxy->request_info);
 echo $seperator;

@@ -177,7 +177,7 @@ function action_error(XMLHttpRequest, textStatus, errorThrown)
 
 function action_process_response(data)
 {
-	//console.log(data);
+	console.log(data);
 	
 	var parts = data.split('--------------WitchDoctor');
 	var data = {request:{}, response:{}};

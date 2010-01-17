@@ -73,14 +73,14 @@ class PHPProxyResponse
 
 class PHPProxy
 {
-	public $host;
-	public $port;
 	public $timeout = 10;
 	public $response;
 	public $request_info;
 	public $request_headers;
 	
-	private $uri;
+	private $url;
+	private $host;
+	private $port = 80;
 	private $headers;
 	
 	/**
@@ -90,10 +90,21 @@ class PHPProxy
 	 * @param string $port the port on the host to use
 	 * @author Adam Venturella
 	 */
-	public function __construct($host, $port)
+	public function __construct(){}
+	
+	public function setPort($port=80)
 	{
-		$this->host            = $host;
-		$this->port            = $port;
+		$this->port = $port;
+	}
+	
+	public function setHost($host)
+	{
+		$this->host = $host;
+	}
+	
+	public function setHeaders($array)
+	{
+		$this->headers = $array;
 	}
 	
 	/**
@@ -103,11 +114,11 @@ class PHPProxy
 	 * @author Adam Venturella
 	 */
 	
-	public function proxy($uri=null)
+	public function proxy($url=null)
 	{
 		$verb      = strtolower($_SERVER['REQUEST_METHOD']);
 		$command   = null;
-		$this->uri = $uri ? $uri : $_SERVER['REQUEST_URI'];
+		$this->url = $url ? $url : $_SERVER['REQUEST_URI'];
 		
 		switch($verb)
 		{
@@ -142,11 +153,6 @@ class PHPProxy
 			curl_close($command);
 			
 		}
-	}
-	
-	public function setHeaders($array)
-	{
-		$this->headers = $array;
 	}
 	
 	/**
@@ -228,7 +234,7 @@ class PHPProxy
 	private function request()
 	{
 		$action    = $_SERVER['REQUEST_METHOD'];
-		$uri       = $this->uri;
+		$uri       = $this->url;
 		
 		$params    = null;
 		
