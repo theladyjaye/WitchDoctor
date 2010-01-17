@@ -23,6 +23,10 @@ $proxy = new PHPProxy();
 $proxy->setHost($endpoint[0]);
 $proxy->setPort($port);
 $proxy->setHeaders($request_headers);
+
+if(isset($_GET['followRedirects'])){ $proxy->setFollowRedirects(true); }
+if(isset($_GET['compression'])){ $proxy->setCompression('gzip'); }
+
 $proxy->proxy($url);
 
 echo json_encode($proxy->request_info);

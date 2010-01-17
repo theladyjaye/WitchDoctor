@@ -120,6 +120,18 @@ function action_connect(request)
 		url = "http://witchdoctor/application/system/witchdoctor.php?endpoint="+encodeURIComponent(request.endpoint)+"&port="+request.port;
 	}
 	
+	if(typeof $('#inputFollowRedirects:checked').val() != 'undefined')
+	{
+		url += "&followRedirects=true";
+	}
+	
+	if(typeof $('#inputResponseIsGziped:checked').val() != 'undefined')
+	{
+		url += "&compression=gzip";
+	}
+	
+	console.log(url);
+	
 	var transfer = {
 		type:request.method,
 		url:url,
@@ -177,7 +189,7 @@ function action_error(XMLHttpRequest, textStatus, errorThrown)
 
 function action_process_response(data)
 {
-	console.log(data);
+	//console.log(data);
 	
 	var parts = data.split('--------------WitchDoctor');
 	var data = {request:{}, response:{}};

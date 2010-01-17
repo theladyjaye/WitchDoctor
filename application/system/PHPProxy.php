@@ -82,6 +82,8 @@ class PHPProxy
 	private $host;
 	private $port = 80;
 	private $headers;
+	private $compression;
+	private $followRedirects = false;
 	
 	/**
 	 * Initialize the proxy service
@@ -92,6 +94,7 @@ class PHPProxy
 	 */
 	public function __construct(){}
 	
+	
 	public function setPort($port=80)
 	{
 		$this->port = $port;
@@ -100,6 +103,16 @@ class PHPProxy
 	public function setHost($host)
 	{
 		$this->host = $host;
+	}
+	
+	public function setCompression($compression)
+	{
+		$this->compression = $compression;
+	}
+	
+	public function setFollowRedirects($value)
+	{
+		$this->followRedirects = $value;
 	}
 	
 	public function setHeaders($array)
@@ -147,9 +160,7 @@ class PHPProxy
 		{
 			$this->response = new PHPProxyResponse();
 			curl_exec($command);
-			//print_r(curl_getinfo($command, CURLINFO_HEADER_OUT));
 			$this->request_info = curl_getinfo($command);
-			//$this->request_headers = curl_getinfo($command, CURLINFO_HEADER_OUT);
 			curl_close($command);
 			
 		}
@@ -234,7 +245,7 @@ class PHPProxy
 	private function request()
 	{
 		$action    = $_SERVER['REQUEST_METHOD'];
-		$uri       = $this->url;
+		$url       = $this->url;
 		
 		$params    = null;
 		
@@ -250,10 +261,14 @@ class PHPProxy
 			}
 		}
 		
-		//echo "http://".$this->host.':'.$this->port.$uri;
 		$command = curl_init();
 		curl_setopt( $command, CURLOPT_HTTPHEADER, $context);
-		curl_setopt( $command, CURLOPT_URL, "http://".$this->host.':'.$this->port.$uri);
+		
+		// we could enable this, but we have a write function specified below, so
+		// it's pretty much the same thing.
+		//curl_setopt( $command, CURLOPT_RETURNTRANSFER, true);
+
+		curl_setopt( $command, CURLOPT_URL, "http://".$this->host.':'.$this->port.$this->url);
 		curl_setopt( $command, CURLOPT_BINARYTRANSFER, true );
 		curl_setopt( $command, CURLOPT_TIMEOUT, $this->timeout );
 		curl_setopt( $command, CURLOPT_HEADERFUNCTION, array($this,'processResponseHeaders'));
@@ -263,7 +278,16 @@ class PHPProxy
 		curl_setopt( $command, CURLINFO_HEADER_OUT, true);
 		
 		// follow redirect
-		curl_setopt( $command, CURLOPT_AUTOREFERER, true);
+		if($this->followRedirects)
+		{
+			curl_setopt( $command, CURLOPT_FOLLOWLOCATION, true);
+			//curl_setopt( $command, CURLOPT_AUTOREFERER, true);
+		}
+		
+		if($this->compression)
+		{
+			curl_setopt( $command, CURLOPT_ENCODING , $this->compression);
+		}
 		
 		return $command;
 	}
@@ -280,7 +304,6 @@ class PHPProxy
 	{
 		$bytes = strlen($data);
 		$this->response->body .= $data;
-		//echo $data;
 		return $bytes;
 	}
 	
@@ -302,9 +325,7 @@ class PHPProxy
 		if ($header !== "\r\n" && strpos($header, 'chunked') === false)
 		{
 			$header = rtrim($header);
-			//echo $header;
 			$this->response->headers[] = $header;
-			header($header);
 		}
 		
 		return $bytes;
