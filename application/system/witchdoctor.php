@@ -1,5 +1,5 @@
 <?php
-require 'PHPProxy.php';
+require 'AMProxy.php';
 $endpoint        = explode('/', $_GET['endpoint']);
 $port            = $_GET['port'];
 $url             = '/'.implode('/', array_slice($endpoint, 1));
@@ -19,7 +19,7 @@ foreach($headers as $key => $value)
 $request_body = file_get_contents("php://input");
 //echo json_encode($request_body);exit;
 //echo json_encode($request_headers);exit;
-$proxy = new PHPProxy();
+$proxy = new AMProxy();
 $proxy->setHost($endpoint[0]);
 $proxy->setPort($port);
 $proxy->setHeaders($request_headers);

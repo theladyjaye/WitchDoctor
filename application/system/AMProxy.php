@@ -60,7 +60,7 @@
  *  RewriteRule .* proxy.php [QSA,L]
  *
  **/
-class PHPProxyResponse
+class AMProxyResponse
 {
 	public $headers;
 	public $body;
@@ -71,7 +71,7 @@ class PHPProxyResponse
 	}
 }
 
-class PHPProxy
+class AMProxy
 {
 	public $timeout = 10;
 	public $response;
@@ -158,7 +158,7 @@ class PHPProxy
 		
 		if($command)
 		{
-			$this->response = new PHPProxyResponse();
+			$this->response = new AMProxyResponse();
 			curl_exec($command);
 			$this->request_info = curl_getinfo($command);
 			curl_close($command);
